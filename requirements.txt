@@ -1,4 +1,6 @@
 acme==2.6.0
 black
 boto3
+build
 isort
+twine
