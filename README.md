@@ -8,11 +8,15 @@ Licensed under Apache 2.0 as this reuses some code from certbot.
 
 ## quick start
 
-Note that you need to install `boto3` separately to use `route53`.
+Install from PyPI:
 
-Create the following files in a folder:
+```sh
+pip install pico-acme
+```
 
-`new.py`:
+(Note that you need to install `boto3` separately to use `route53`.)
+
+### `new.py`:
 
 ```py
 ROUTE53_HOSTED_ZONE_ID = "..."
@@ -49,7 +53,7 @@ with open("fullchain.pem", "w") as f:
     f.write(fullchain_pem)
 ```
 
-`renew.py`:
+### `renew.py`:
 
 ```py
 ROUTE53_HOSTED_ZONE_ID = "..."
