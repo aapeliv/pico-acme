@@ -27,5 +27,10 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     package_data={"pico_acme": ["version"]},
     python_requires=">=3.8",
-    install_requires=["acme==2.6.0"],
+    install_requires=[
+        "acme==2.9.0",
+        "cryptography>=3.2.1",
+        "PyOpenSSL>=17.5.0,!=23.1.0",
+        "pyrfc3339",
+    ],
 )

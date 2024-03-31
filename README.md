@@ -85,6 +85,22 @@ with open("fullchain.pem", "w") as f:
     f.write(fullchain_pem)
 ```
 
+### checking if you need to renew
+
+```py
+import pico_acme
+
+with open("fullchain.pem") as f:
+    fullchain_pem = f.read()
+
+if pico_acme.should_renew(fullchain_pem):
+    print("due for renewal")
+```
+
 ## architecture & features
 
 The `perform_dns01` takes two callables, `upsert(record, value)` which should set the value `value` (the verification string) in record `record` (e.g. `_acme-challenge.example.com`), and `clean(record, value)` which should clean these up. See the `route53.py` implementation for details.
+
+## acknowledgements
+
+This is based very heavily on [certbot](https://github.com/certbot/certbot), with portions copied directly.

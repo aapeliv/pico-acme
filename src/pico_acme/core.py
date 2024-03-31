@@ -1,7 +1,10 @@
 import json
+from datetime import datetime, timedelta, timezone
 
 import josepy as jose
+import pyrfc3339
 from acme import challenges, client, crypto_util, messages
+from cryptography import x509
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import ec, rsa
 from cryptography.hazmat.primitives.serialization import Encoding, NoEncryption, PrivateFormat
@@ -102,3 +105,33 @@ def perform_dns01(acme_client, domain, csr_pem, upsert_dns, cleanup_dns):
     finalized_orderr = acme_client.poll_and_finalize(orderr)
     cleanup_dns(record, challenge_value)
     return finalized_orderr.fullchain_pem
+
+
+def get_expiry(fullchain_pem):
+    """
+    Given a certificate, figures out the expiry date
+    """
+    x509 = crypto.load_certificate(crypto.FILETYPE_PEM, fullchain_pem.encode("ascii"))
+    timestamp = crypto.X509.get_notAfter(x509)
+    if not timestamp:
+        raise Exception("Error while invoking timestamp method, None has been returned.")
+    timestamp_bytes = b"".join(
+        [
+            timestamp[0:4],
+            b"-",
+            timestamp[4:6],
+            b"-",
+            timestamp[6:8],
+            b"T",
+            timestamp[8:10],
+            b":",
+            timestamp[10:12],
+            b":",
+            timestamp[12:],
+        ]
+    )
+    return pyrfc3339.parse(timestamp_bytes.decode("ascii"))
+
+
+def should_renew(fullchain_pem):
+    return datetime.now(timezone.utc) > get_expiry(fullchain_pem) - timedelta(days=30)
