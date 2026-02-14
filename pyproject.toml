@@ -8,16 +8,16 @@ dynamic = ["version"]
 description = "Pico ACME: tiny ACMEv2 client"
 readme = "README.md"
 license = "Apache-2.0"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 authors = [{ name = "Aapeli Vuorinen" }]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "acme==2.6.0",
-    "cryptography>=3.2.1",
-    "PyOpenSSL>=17.5.0,!=23.1.0",
+    "acme==5.3.1",
+    "cryptography>=43.0.0",
+    "PyOpenSSL>=25.0.0",
     "pyrfc3339",
 ]
 
@@ -29,7 +29,7 @@ GitHub = "https://github.com/aapeliv/pico-acme"
 "Bug Tracker" = "https://github.com/aapeliv/pico-acme/issues"
 
 [dependency-groups]
-dev = ["black", "build", "isort", "twine"]
+dev = ["black", "build", "isort", "pytest", "twine"]
 
 [tool.setuptools.dynamic]
 version = { file = "src/pico_acme/version" }
@@ -42,6 +42,11 @@ pico_acme = ["version"]
 
 [tool.black]
 line-length = 120
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: mark test as integration test (needs AWS creds + network)",
+]
 
 [tool.isort]
 skip_gitignore = true
