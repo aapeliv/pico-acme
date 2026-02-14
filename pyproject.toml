@@ -15,7 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "acme==2.9.0",
+    "acme==2.6.0",
     "cryptography>=3.2.1",
     "PyOpenSSL>=17.5.0,!=23.1.0",
     "pyrfc3339",
