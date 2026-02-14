@@ -1,9 +1,44 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
+requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pico_acme"
+dynamic = ["version"]
+description = "Pico ACME: tiny ACMEv2 client"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+authors = [{ name = "Aapeli Vuorinen" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "acme==2.9.0",
+    "cryptography>=3.2.1",
+    "PyOpenSSL>=17.5.0,!=23.1.0",
+    "pyrfc3339",
+]
+
+[project.optional-dependencies]
+route53 = ["boto3"]
+
+[project.urls]
+GitHub = "https://github.com/aapeliv/pico-acme"
+"Bug Tracker" = "https://github.com/aapeliv/pico-acme/issues"
+
+[dependency-groups]
+dev = ["black", "build", "isort", "twine"]
+
+[tool.setuptools.dynamic]
+version = { file = "src/pico_acme/version" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pico_acme = ["version"]
 
 [tool.black]
 line-length = 120
